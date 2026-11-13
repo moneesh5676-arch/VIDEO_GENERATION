@@ -50,9 +50,13 @@ def run_generation(project_id: int) -> None:
 
         provider = get_provider(settings)
         if not provider.is_configured():
+            if provider.name == "none":
+                raise ProviderNotConfigured(
+                    "No AI video provider is configured. Set VIDEO_PROVIDER=fal and "
+                    "VIDEO_PROVIDER_API_KEY in backend/.env, then restart the server."
+                )
             raise ProviderNotConfigured(
-                "No AI video provider is configured. Set VIDEO_PROVIDER and VIDEO_PROVIDER_API_KEY "
-                "in backend/.env, then restart the server."
+                f"Provider '{provider.name}' is selected but VIDEO_PROVIDER_API_KEY is missing from backend/.env."
             )
 
         image_path = settings.uploads_dir / project.image_file if project.image_file else None

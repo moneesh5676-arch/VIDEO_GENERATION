@@ -3,23 +3,25 @@ import { Sparkles, Loader2 } from "lucide-react";
 import OptionGroup from "../components/OptionGroup.jsx";
 import PreviewPanel from "../components/PreviewPanel.jsx";
 import { api } from "../lib/api.js";
+import useGenerationPolling from "../hooks/useGenerationPolling.js";
 
 export const ASPECTS = [
   { value: "16:9", label: "16:9 Landscape" },
   { value: "9:16", label: "9:16 Vertical" },
-  { value: "1:1", label: "1:1 Square" },
 ];
-export const DURATIONS = [3, 5, 8, 10].map((d) => ({ value: d, label: `${d}s` }));
-export const RESOLUTIONS = ["480p", "720p", "1080p"].map((r) => ({ value: r, label: r }));
+export const DURATIONS = [4, 6, 8].map((d) => ({ value: d, label: `${d}s` }));
+export const RESOLUTIONS = ["720p", "1080p", "4k"].map((r) => ({ value: r, label: r.toUpperCase() }));
 
 export default function TextToVideo() {
   const [prompt, setPrompt] = useState("");
-  const [duration, setDuration] = useState(5);
+  const [duration, setDuration] = useState(4);
   const [aspect, setAspect] = useState("16:9");
   const [resolution, setResolution] = useState("720p");
   const [submitting, setSubmitting] = useState(false);
   const [project, setProject] = useState(null);
   const [error, setError] = useState(null);
+
+  useGenerationPolling(project, setProject, setError);
 
   async function handleSubmit(e) {
     e.preventDefault();

@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Type, ImagePlay, FolderClock, Clapperboard, X } from "lucide-react";
+import { LayoutDashboard, Type, ImagePlay, ImagePlus, FolderClock, Clapperboard, X } from "lucide-react";
 
 const links = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/text-to-video", label: "Text to Video", icon: Type },
+  { to: "/text-to-image", label: "Text to Image", icon: ImagePlus },
   { to: "/image-to-video", label: "Image to Video", icon: ImagePlay },
   { to: "/projects", label: "Projects", icon: FolderClock },
 ];

@@ -11,6 +11,7 @@ const RATIOS = { "16:9": "16 / 9", "9:16": "9 / 16", "1:1": "1 / 1" };
 export default function PreviewPanel({ project, aspectRatio = "16:9", error }) {
   const src = mediaUrl(project?.video_url);
   const busy = project && (project.status === "queued" || project.status === "processing");
+  const message = project?.status === "failed" ? project.error_message : error;
 
   return (
     <div className="card p-5">
@@ -30,10 +31,10 @@ export default function PreviewPanel({ project, aspectRatio = "16:9", error }) {
             <Loader2 size={32} className="animate-spin text-accent-purple" />
             <p className="text-sm">Your video is being generated…</p>
           </div>
-        ) : error ? (
+        ) : message ? (
           <div className="flex flex-col items-center gap-3 px-6 text-center text-red-300">
             <AlertTriangle size={28} />
-            <p className="text-sm">{error}</p>
+            <p className="text-sm">{message}</p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3 text-zinc-600">

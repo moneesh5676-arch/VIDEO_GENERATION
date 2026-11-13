@@ -3,11 +3,13 @@ from typing import Dict, List, Type
 
 from ..config import Settings
 from .base import BaseVideoProvider, ProviderNotConfigured
+from .fal_provider import FalProvider
 from .none_provider import NoProvider
 
 # To add a provider later: import its class and add it here.
 PROVIDERS: Dict[str, Type[BaseVideoProvider]] = {
     NoProvider.name: NoProvider,
+    FalProvider.name: FalProvider,
 }
 
 

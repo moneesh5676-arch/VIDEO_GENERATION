@@ -37,6 +37,13 @@ export const api = {
       body: JSON.stringify(payload),
     }),
 
+  createTextImage: (payload) =>
+    request("/api/generate/text-to-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }),
+
   createImageVideo: (formData) =>
     request("/api/generate/image-to-video", { method: "POST", body: formData }),
 };

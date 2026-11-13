@@ -18,5 +18,7 @@ uvicorn app.main:app --reload --port 8000
 
 ## Needs an AI provider API key?
 - Health, projects list/get/status/delete, uploads, database, FFmpeg: NO key needed.
-- Real video generation (text-to-video, image-to-video): YES, needs a provider + key (next stage).
-  Until then, generation requests are saved and end as `failed` with a clear message.
+- Image and video generation use fal.ai. Set `VIDEO_PROVIDER=fal` and
+  `VIDEO_PROVIDER_API_KEY` in the local `.env` file. The model endpoint IDs can
+  be changed with `VIDEO_PROVIDER_MODEL`, `VIDEO_PROVIDER_IMAGE_MODEL`, and
+  `VIDEO_PROVIDER_TEXT_IMAGE_MODEL`. Provider usage may incur charges.

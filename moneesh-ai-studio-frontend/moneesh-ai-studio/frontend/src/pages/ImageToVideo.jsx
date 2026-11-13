@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Upload, Sparkles, Loader2, X } from "lucide-react";
 import OptionGroup from "../components/OptionGroup.jsx";
 import PreviewPanel from "../components/PreviewPanel.jsx";
-import { ASPECTS, DURATIONS, RESOLUTIONS } from "./TextToVideo.jsx";
+import { DURATIONS } from "./TextToVideo.jsx";
 import { api } from "../lib/api.js";
+import useGenerationPolling from "../hooks/useGenerationPolling.js";
 
 const MAX_MB = 10;
 
@@ -12,13 +13,13 @@ export default function ImageToVideo() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [instructions, setInstructions] = useState("");
-  const [duration, setDuration] = useState(5);
-  const [aspect, setAspect] = useState("16:9");
-  const [resolution, setResolution] = useState("720p");
+  const [duration, setDuration] = useState(4);
   const [submitting, setSubmitting] = useState(false);
   const [project, setProject] = useState(null);
   const [error, setError] = useState(null);
   const [dragging, setDragging] = useState(false);
+
+  useGenerationPolling(project, setProject, setError);
 
   useEffect(() => () => preview && URL.revokeObjectURL(preview), [preview]);
 
@@ -48,8 +49,6 @@ export default function ImageToVideo() {
       fd.append("image", file);
       fd.append("prompt", instructions.trim());
       fd.append("duration", duration);
-      fd.append("aspect_ratio", aspect);
-      fd.append("resolution", resolution);
       setProject(await api.createImageVideo(fd));
     } catch (err) {
       setError(err.message);
@@ -111,8 +110,7 @@ export default function ImageToVideo() {
           </div>
 
           <OptionGroup label="Duration" options={DURATIONS} value={duration} onChange={setDuration} />
-          <OptionGroup label="Aspect ratio" options={ASPECTS} value={aspect} onChange={setAspect} />
-          <OptionGroup label="Resolution" options={RESOLUTIONS} value={resolution} onChange={setResolution} />
+          <p className="text-xs text-zinc-500">The result follows your uploaded image’s framing.</p>
 
           <button type="submit" disabled={submitting || !file} className="btn-primary w-full">
             {submitting ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
@@ -121,7 +119,7 @@ export default function ImageToVideo() {
         </form>
 
         <div className="lg:col-span-2">
-          <PreviewPanel project={project} aspectRatio={aspect} error={error} />
+          <PreviewPanel project={project} error={error} />
         </div>
       </div>
     </div>

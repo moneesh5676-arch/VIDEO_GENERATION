@@ -6,8 +6,9 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from .models import Project, ProjectStatus
 
-AspectRatio = Literal["9:16", "16:9", "1:1"]
-Resolution = Literal["480p", "720p", "1080p"]
+AspectRatio = Literal["9:16", "16:9"]
+Resolution = Literal["720p", "1080p", "4k"]
+TextVideoDuration = Literal[4, 6, 8]
 
 MAX_DURATION_SECONDS = 10
 
@@ -16,9 +17,19 @@ class TextToVideoRequest(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
     prompt: str = Field(min_length=3, max_length=1000, description="Describe the video scene.")
-    duration: int = Field(default=5, ge=1, le=MAX_DURATION_SECONDS, description="Length in seconds.")
+    duration: TextVideoDuration = Field(default=4, description="Length in seconds.")
     aspect_ratio: AspectRatio = "16:9"
     resolution: Resolution = "720p"
+
+
+class TextToImageRequest(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    prompt: str = Field(min_length=3, max_length=1000, description="Describe the image you want to create.")
+
+
+class TextToImageOut(BaseModel):
+    image_url: str
 
 
 class ProjectOut(BaseModel):

@@ -1,15 +1,14 @@
-# MONEESH AI STUDIO
+# MONEESH AI STUDIO frontend
 
-Step 1: React frontend (Vite + Tailwind CSS 3).
+React, Vite, and Tailwind CSS frontend with text-to-video, image-to-video,
+text-to-image, dashboard, and project history pages.
 
 ## Run
-```bash
-cd frontend
-npm install
-cp .env.example .env      # Windows: copy .env.example .env
-npm run dev
-```
-Open http://localhost:5173
 
-The backend (FastAPI) is added in Step 2. Until then the app shows a
-"cannot reach backend" message instead of generating anything.
+```powershell
+npm install
+npm run dev -- --host 127.0.0.1
+```
+
+The frontend expects the FastAPI backend at `http://localhost:8000` by default.
+Set `VITE_API_URL` in a local `.env` file if the backend uses another URL.

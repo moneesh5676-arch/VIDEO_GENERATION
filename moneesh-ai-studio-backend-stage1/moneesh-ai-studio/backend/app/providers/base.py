@@ -38,6 +38,7 @@ class BaseVideoProvider(ABC):
     requires_api_key: bool = True
     supports_text_to_video: bool = True
     supports_image_to_video: bool = True
+    supports_text_to_image: bool = False
 
     def __init__(self, settings: Settings):
         self.settings = settings
@@ -54,3 +55,6 @@ class BaseVideoProvider(ABC):
         This function may block (submit job, wait, download). It runs in a background thread,
         not inside the web request. Raise ProviderError if anything fails.
         """
+
+    def generate_image(self, prompt: str) -> str:
+        raise ProviderError(f"Provider '{self.name}' does not support text-to-image.")
