@@ -31,7 +31,10 @@ class Settings(BaseSettings):
     storage_dir: str = "storage"
 
     # Comma-separated list of frontend URLs allowed by CORS.
-    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    cors_origins: str = (
+        "http://localhost:5173,http://127.0.0.1:5173,"
+        "http://localhost:5174,http://127.0.0.1:5174"
+    )
 
     max_upload_mb: int = 10
 
