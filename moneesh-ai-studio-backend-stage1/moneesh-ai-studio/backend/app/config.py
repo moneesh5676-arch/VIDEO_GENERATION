@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     # AI provider settings (see app/providers/)
     video_provider: str = "none"
     video_provider_api_key: str = ""
-    video_provider_model: str = "fal-ai/veo3.1"
+    video_provider_model: str = "fal-ai/kling-video/v3/standard/text-to-video"
     video_provider_image_model: str = "fal-ai/kling-video/v3/pro/image-to-video"
     video_provider_text_image_model: str = "fal-ai/flux-2-pro"
 

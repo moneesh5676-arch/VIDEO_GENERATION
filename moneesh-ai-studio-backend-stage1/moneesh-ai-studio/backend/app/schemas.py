@@ -7,7 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from .models import Project, ProjectStatus
 
 AspectRatio = Literal["9:16", "16:9"]
-Resolution = Literal["720p", "1080p", "4k"]
+Resolution = Literal["720p"]
 TextVideoDuration = Literal[4, 6, 8]
 
 MAX_DURATION_SECONDS = 10

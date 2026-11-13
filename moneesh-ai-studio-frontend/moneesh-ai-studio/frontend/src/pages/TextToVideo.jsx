@@ -10,16 +10,15 @@ export const ASPECTS = [
   { value: "9:16", label: "9:16 Vertical" },
 ];
 export const DURATIONS = [4, 6, 8].map((d) => ({ value: d, label: `${d}s` }));
-export const RESOLUTIONS = ["720p", "1080p", "4k"].map((r) => ({ value: r, label: r.toUpperCase() }));
 
 export default function TextToVideo() {
   const [prompt, setPrompt] = useState("");
   const [duration, setDuration] = useState(4);
   const [aspect, setAspect] = useState("16:9");
-  const [resolution, setResolution] = useState("720p");
   const [submitting, setSubmitting] = useState(false);
   const [project, setProject] = useState(null);
   const [error, setError] = useState(null);
+  const resolution = "720p";
 
   useGenerationPolling(project, setProject, setError);
 
@@ -67,7 +66,6 @@ export default function TextToVideo() {
 
           <OptionGroup label="Duration" options={DURATIONS} value={duration} onChange={setDuration} />
           <OptionGroup label="Aspect ratio" options={ASPECTS} value={aspect} onChange={setAspect} />
-          <OptionGroup label="Resolution" options={RESOLUTIONS} value={resolution} onChange={setResolution} />
 
           <button type="submit" disabled={submitting || !prompt.trim()} className="btn-primary w-full">
             {submitting ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}

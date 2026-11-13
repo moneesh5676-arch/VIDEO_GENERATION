@@ -12,7 +12,6 @@ from fal_client.client import FalClientError, FalClientHTTPError, FalClientTimeo
 from .base import BaseVideoProvider, GenerationRequest, ProviderError, ProviderNotConfigured
 
 _VIDEO_TIMEOUT_SECONDS = 900
-_SUPPORTED_VEO_DURATIONS = (4, 6, 8)
 
 
 class FalProvider(BaseVideoProvider):
@@ -78,12 +77,10 @@ class FalProvider(BaseVideoProvider):
 
     def generate(self, request: GenerationRequest, output_path: Path) -> None:
         if request.image_path is None:
-            duration = min(_SUPPORTED_VEO_DURATIONS, key=lambda value: abs(value - request.duration))
             arguments = {
                 "prompt": request.prompt,
                 "aspect_ratio": request.aspect_ratio if request.aspect_ratio in ("16:9", "9:16") else "16:9",
-                "duration": f"{duration}s",
-                "resolution": request.resolution if request.resolution in ("720p", "1080p", "4k") else "720p",
+                "duration": str(request.duration),
                 "generate_audio": False,
             }
             model = self.settings.video_provider_model
