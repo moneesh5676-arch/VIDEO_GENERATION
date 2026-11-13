@@ -33,8 +33,14 @@ class FalProvider(BaseVideoProvider):
     @staticmethod
     def _provider_error(exc: FalClientError) -> ProviderError:
         if isinstance(exc, FalClientHTTPError):
-            if exc.status_code in (401, 403):
-                return ProviderError("fal.ai rejected the API key or this model is not enabled for the account.")
+            if exc.status_code == 401:
+                return ProviderError(
+                    "fal.ai rejected the API key (HTTP 401). Replace VIDEO_PROVIDER_API_KEY with an active key from your fal.ai account."
+                )
+            if exc.status_code == 403:
+                return ProviderError(
+                    "fal.ai denied access (HTTP 403). Check whether your fal.ai account can use the configured model."
+                )
             if exc.status_code == 402:
                 return ProviderError("fal.ai requires an active payment method or available account credits.")
             if exc.status_code == 429:
