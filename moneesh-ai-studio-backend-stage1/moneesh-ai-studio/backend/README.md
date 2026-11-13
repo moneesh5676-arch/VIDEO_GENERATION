@@ -16,9 +16,7 @@ uvicorn app.main:app --reload --port 8000
 
 3. Open http://localhost:8000/docs (Swagger UI).
 
-## Needs an AI provider API key?
-- Health, projects list/get/status/delete, uploads, database, FFmpeg: NO key needed.
-- Image and video generation use fal.ai. Set `VIDEO_PROVIDER=fal` and
-  `VIDEO_PROVIDER_API_KEY` in the local `.env` file. The model endpoint IDs can
-  be changed with `VIDEO_PROVIDER_MODEL`, `VIDEO_PROVIDER_IMAGE_MODEL`, and
-  `VIDEO_PROVIDER_TEXT_IMAGE_MODEL`. Provider usage may incur charges.
+## AI generation
+- Health, projects list/get/status/delete, uploads, database and FFmpeg work without a provider key.
+- The backend's API-based AI generation requires an external provider and may incur charges.
+- For a no-cost manual text-to-video workflow, use the `free_colab_video_generator.ipynb` notebook in the repository root. It runs separately from this backend and downloads the generated MP4.

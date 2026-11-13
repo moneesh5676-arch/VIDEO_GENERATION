@@ -60,7 +60,7 @@ export default function Sidebar({ open, onClose }) {
         </nav>
 
         <p className="mt-6 rounded-xl border border-white/5 bg-ink-800 p-3 text-xs leading-relaxed text-zinc-500">
-          Heavy AI inference runs on your configured cloud provider, not on this device.
+          Free text-to-video runs in Colab when a GPU is available. Other AI features need an external provider.
         </p>
       </aside>
     </>

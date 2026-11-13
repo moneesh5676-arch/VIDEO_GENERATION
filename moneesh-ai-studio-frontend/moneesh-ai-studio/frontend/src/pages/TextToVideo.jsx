@@ -1,82 +1,42 @@
-import { useState } from "react";
-import { Sparkles, Loader2 } from "lucide-react";
-import OptionGroup from "../components/OptionGroup.jsx";
-import PreviewPanel from "../components/PreviewPanel.jsx";
-import { api } from "../lib/api.js";
-import useGenerationPolling from "../hooks/useGenerationPolling.js";
+const COLAB_NOTEBOOK_URL =
+  "https://colab.research.google.com/github/moneesh5676-arch/VIDEO_GENERATION/blob/main/free_colab_video_generator.ipynb";
 
-export const ASPECTS = [
-  { value: "16:9", label: "16:9 Landscape" },
-  { value: "9:16", label: "9:16 Vertical" },
-];
-export const DURATIONS = [4, 6, 8].map((d) => ({ value: d, label: `${d}s` }));
+export const DURATIONS = [4, 6, 8].map((duration) => ({
+  value: duration,
+  label: `${duration}s`,
+}));
 
 export default function TextToVideo() {
-  const [prompt, setPrompt] = useState("");
-  const [duration, setDuration] = useState(4);
-  const [aspect, setAspect] = useState("16:9");
-  const [submitting, setSubmitting] = useState(false);
-  const [project, setProject] = useState(null);
-  const [error, setError] = useState(null);
-  const resolution = "720p";
-
-  useGenerationPolling(project, setProject, setError);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!prompt.trim()) return;
-    setSubmitting(true);
-    setError(null);
-    setProject(null);
-    try {
-      const created = await api.createTextVideo({
-        prompt: prompt.trim(),
-        duration,
-        aspect_ratio: aspect,
-        resolution,
-      });
-      setProject(created); // status polling is added in Step 5
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold text-white">Text to Video</h1>
-      <p className="mt-1 text-zinc-500">Describe your scene in detail for the best cinematic results.</p>
+      <h1 className="font-display text-3xl font-bold text-white">Free Text to Video</h1>
+      <p className="mt-1 text-zinc-500">
+        Generate a video in a temporary Google Colab session without an API key or provider credits.
+      </p>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-5">
-        <form onSubmit={handleSubmit} className="card space-y-6 p-6 lg:col-span-3">
-          <div>
-            <label htmlFor="prompt" className="label">Prompt</label>
-            <textarea
-              id="prompt"
-              rows={7}
-              maxLength={1000}
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="A lone astronaut walks across a red desert at golden hour, dust swirling, cinematic lighting, shallow depth of field, 35mm film look…"
-              className="input resize-none"
-            />
-            <p className="mt-1 text-right text-xs text-zinc-600">{prompt.length}/1000</p>
-          </div>
-
-          <OptionGroup label="Duration" options={DURATIONS} value={duration} onChange={setDuration} />
-          <OptionGroup label="Aspect ratio" options={ASPECTS} value={aspect} onChange={setAspect} />
-
-          <button type="submit" disabled={submitting || !prompt.trim()} className="btn-primary w-full">
-            {submitting ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
-            {submitting ? "Submitting…" : "Generate Video"}
-          </button>
-        </form>
-
-        <div className="lg:col-span-2">
-          <PreviewPanel project={project} aspectRatio={aspect} error={error} />
+      <section className="card mt-8 max-w-3xl space-y-5 p-6">
+        <div>
+          <h2 className="text-xl font-semibold text-white">Open the free generator</h2>
+          <p className="mt-2 text-sm text-zinc-400">
+            The notebook uses the open-source CogVideoX-2B model. In Colab, choose a T4 GPU if one is
+            available, run the cells in order, and download the resulting MP4.
+          </p>
         </div>
-      </div>
+
+        <a
+          href={COLAB_NOTEBOOK_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-primary inline-flex"
+        >
+          Open Google Colab notebook
+        </a>
+
+        <p className="text-xs text-zinc-500">
+          Free GPU access is limited and not guaranteed. Generation may be slow or run out of memory.
+          This is a separate manual workflow, not an always-on backend service.
+        </p>
+      </section>
     </div>
   );
 }

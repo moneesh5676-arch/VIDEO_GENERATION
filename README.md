@@ -2,6 +2,16 @@
 
 MONEESH AI STUDIO contains a React/Vite frontend and a FastAPI backend.
 
+## Free text-to-video
+
+Open the [Colab notebook](https://colab.research.google.com/github/moneesh5676-arch/VIDEO_GENERATION/blob/main/free_colab_video_generator.ipynb),
+select **Runtime > Change runtime type > T4 GPU** if available, then run its cells from top to bottom.
+It uses the open-source CogVideoX-2B model without an API key or provider credits. Free GPU access
+is limited and not guaranteed; generation may be slow or run out of memory. This manual notebook
+downloads a video separately and is not an always-on backend for the app.
+
+The app's **Text to Video** page links to this notebook.
+
 ## Run locally
 
 Start the backend in one PowerShell terminal:
@@ -15,9 +25,8 @@ Copy-Item .env.example .env
 uvicorn app.main:app --reload --port 8000
 ```
 
-To enable image and video generation, set `VIDEO_PROVIDER=fal` and add your
-fal.ai key to `VIDEO_PROVIDER_API_KEY` in the backend `.env` file. Provider
-usage may incur charges.
+The local FastAPI service does not provide free AI inference. API-based generation requires a
+configured provider and may incur charges; use the Colab notebook above for the no-cost manual route.
 
 Start the frontend in a second terminal:
 
